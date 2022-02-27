@@ -20,9 +20,7 @@
 		@yield('title')
 	</title>
 
-	<!--
-            CSS
-            ============================================= -->
+	<!--===CSS=== -->
 	<link rel="stylesheet" href="{{ asset('css/frontend/linearicons.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/frontend/animate.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/frontend/owl.carousel.min.css') }}">
@@ -72,13 +70,11 @@
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							 aria-expanded="false">Brands</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item">
-									@php
-								$brands=DB::table('brands')->get();
-									@endphp
+								<li class="nav-item">	
 									@foreach($brands as $brand)
-									<li class="nav-item"><a class="nav-link"
-											href="{{url('brand',$brand->id)}}">{{($brand->brand_name)}}</a></li>
+										<li class="nav-item">
+											<a class="nav-link" href="{{url('brand',$brand->id)}}">{{($brand->brand_name)}}</a>
+										</li>
 									@endforeach
 								</li>	
 							</ul>
@@ -89,12 +85,9 @@
 							 aria-expanded="false">Category</a>
 							<ul class="dropdown-menu">
 								<li class="nav-item">
-									@php
-									$cats=DB::table('categories')->get();
-									@endphp
-									@foreach($cats as $cat)
+									@foreach($categories as $category)
 									<li class="nav-item"><a class="nav-link"
-											href="{{url('category',$cat->id)}}">{{($cat->category_name)}}</a></li>
+											href="{{url('category',$category->id)}}">{{($category->category_name)}}</a></li>
 									@endforeach
 								</li>	
 							</ul>
@@ -103,52 +96,47 @@
 						<li class="nav-item"><a class="nav-link" href="{{url('/blogs')}}">Blogs</a></li>
 
 						<li class="nav-item submenu dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-							 aria-expanded="false">
-							@guest
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-							 aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i>
-							@else
-							<img style="width:30px;height:30px;border-radius:50%;" src="{{asset(Auth::user()->user_image )}}"alt="">
-            				{{ Auth::user()->name }} <i class="fas fa-caret-down"></i>
-      
-							
-
-							@endguest
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								@guest
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fas fa-user-circle fa-2x"></i>
+									</a>
+								@else
+									<img style="width:30px;height:30px;border-radius:50%;" src="{{asset(Auth::user()->user_image )}}"alt="">
+	            			{{ Auth::user()->name }} <i class="fas fa-caret-down"></i>
+								@endguest
 							</a>
+
 							<ul class="dropdown-menu">
 								<li class="nav-item">
 									<!-- Authentication Links -->
 									@guest
-									<li class="nav-item">
-										<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-									</li>
-									@if (Route::has('register'))
-									<li class="nav-item">
-										<a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-									</li>
-									@endif
-									@else
-									
-										<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-											<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-									 document.getElementById('logout-form').submit();">
-												{{ __('Logout') }}
-											</a>
-
-											<form id="logout-form" action="{{ route('logout') }}" method="POST">
-												@csrf
-											</form>
-										</div>
-								
+										<li class="nav-item">
+											<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+										</li>
+										@if (Route::has('register'))
+											<li class="nav-item">
+												<a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+											</li>
+										@endif
 									@endguest
+
+									@auth
+											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+												<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+												document.getElementById('logout-form').submit();">
+													{{ __('Logout') }}
+												</a>
+												<form id="logout-form" action="{{ route('logout') }}" method="POST">
+													@csrf
+												</form>
+											</div>
+									@endauth
 								</li>
-								
 							</ul>
 						</li>
 						
 					</ul>
-
 				</div>
 			</div>
 		</nav>
@@ -195,17 +183,7 @@
 							<i class="Shopping-icon fa fa-shopping-cart fa-2x"></i>
 								<span class="shopping-text">Cart</span>
 								<span style="color:white; font-weight:bold;">
-									@php
-									$auth_user = Auth::user();
-									@endphp
-		
-									@isset($auth_user)
-									({{ App\Cart::where('user_id', Auth::user()->id)->count() }}) 
-									@endisset
-		
-									@empty($auth_user)
-									( 0 )
-									@endempty
+									{{$carts}}
 								</span>
 						</a>
 
@@ -213,17 +191,7 @@
 						<i class="Shopping-icon fa fa-star fa-2x"></i>
 							<span class="shopping-text">Wishlist</span>
 							<span style="color:white; font-weight:bold;">
-								@php
-								$auth_user = Auth::user();
-								@endphp
-
-								@isset($auth_user)
-								({{ App\Wishlist::where('user_id', Auth::user()->id)->count() }})
-								@endisset
-
-								@empty($auth_user)
-								( 0 )
-								@endempty
+								{{$wishlists}}
 							</span>
 					</a>
 					

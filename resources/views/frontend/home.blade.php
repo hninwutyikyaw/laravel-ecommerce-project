@@ -158,20 +158,20 @@
 
 <div class="container category">
 	<div class="row">
-			@foreach($cats as $cat)
+			@foreach($categories as $category)
 		<div class="col-lg-6 col-md-6">
 			<div class="card category-box">
 				<div class="card-body text-success">			  
 				  <div class="row">
 					  <div class="col">
-					  	<a href="{{url('category',$cat->id)}}" type="button" style="color: #dd2c00;" class="btn-floating shop-now">
+					  	<a href="{{url('category',$category->id)}}" type="button" style="color: #dd2c00;" class="btn-floating shop-now">
 						<img class="card-image product-images"
-						src="{{URL::to('/')}}/images/{{ $cat->image }}" alt="">
+						src="{{URL::to('/')}}/images/{{ $category->image }}" alt="">
 					</a>
 					</div>
 					  <div class="col cat-name">
-						<h4 style="color:black;">{{$cat->category_name}}</h4>
-						<a href="{{url('category',$cat->id)}}" type="button" style="color: #dd2c00;" class="btn-floating shop-now">
+						<h4 style="color:black;">{{$category->category_name}}</h4>
+						<a href="{{url('category',$category->id)}}" type="button" style="color: #dd2c00;" class="btn-floating shop-now">
 							<p style="color: black;">Shop Now &nbsp;<span class="fas fa-play-circle" style="color:#0090F0;" aria-hidden="true"></span></p>
 						</a>
 						

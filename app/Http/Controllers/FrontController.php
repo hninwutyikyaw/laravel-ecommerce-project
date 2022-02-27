@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Category;
+use App\Brand;
+
 use App\Product;
 use App\Wishlist;
 use App\Cart;
@@ -14,12 +17,31 @@ use App\Inventory;
 use App\Order_product;
 use App\Blog;
 use App\Comment;
+
 use App\Review;
 use Session;
 use App\Reply;
 
 class FrontController extends Controller
 {
+    public function home()
+    {
+        $arrival = Product::orderBy('created_at','desc')
+                    ->take(11)
+                    ->get();
+
+        $blogs = Blog::orderBy('created_at','desc')
+                    ->take(4)
+                    ->get();
+       
+        $categories = Category::all();
+         
+        // return view('frontend.home', compact('products','arrival','blogs','cats'));
+        return view('frontend.home', compact('arrival','blogs','categories'));
+    }
+
+
+
     public function search(Request $request)
     {
         $searchData = $request->searchData;
@@ -153,16 +175,8 @@ class FrontController extends Controller
         $carts = Cart::where('id', '=', $id)->delete();
         return back()->with('status', 'Item Removed from cart');
     }
-    public function indexproduct(Request $request)
-    {
-        $arrival = Product::orderBy('created_at','desc')->take(11)->get();
-        $blogs = Blog::orderBy('created_at','desc')->take(4)->get();
-       
-         $cats=DB::table('categories')->get(); 
-         
-        // return view('frontend.home', compact('products','arrival','blogs','cats'));
-        return view('frontend.home', compact('arrival','blogs','cats'));
-    }
+
+    
 
     public function storeOrder(Request $request)
     {

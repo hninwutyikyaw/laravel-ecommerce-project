@@ -4,7 +4,12 @@ Auth::routes();
     // Route::get('/home','HomeController@index');
     // Route::get('/main','FrontController@products')->name('home');
     // Route::get('/list','FrontController@newArrival');
-    Route::get('/home','FrontController@indexproduct');
+
+
+    Route::get('/home','FrontController@home');
+    
+
+
     Route::get('/allproducts','FrontController@allproducts');
     Route::get('/category/{id}','FrontController@showCates');
     Route::get('/productDetail/{id}','FrontController@detailPro');

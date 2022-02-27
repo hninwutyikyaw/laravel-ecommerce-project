@@ -28,17 +28,15 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-    // protected function redirectTo()
-    // {
-    //     return url()->previous();
-    // }
+    
 
     public function logout()
     {
         Auth::logout();
 
-    return redirect('/home');
+        return redirect('/home');
     }
+    
     /**
      * Create a new controller instance.
      *
